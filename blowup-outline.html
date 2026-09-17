@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLOWUP — Project Outline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============ TOKENS ============ */
+:root{
+  --void:#0A0A0C;
+  --void-2:#131316;
+  --void-3:#1B1B1F;
+  --line:#28282D;
+  --paper:#F3F0E8;
+  --paper-dim:#AFACA4;
+  --hazard:#FFCE00;
+  --blowtorch:#FF4A1F;
+  --riot:#FF1E82;
+  --ops-bg:#151517;
+  --ops-line:#38383B;
+  --ops-text:#C7C6C3;
+  --ops-dim:#78787B;
+  --ops-stamp:#A5402F;
+  --font-display:'Anton', sans-serif;
+  --font-body:'Inter', sans-serif;
+  --font-data:'Space Mono', monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:var(--void);
+  }
+}
+:root[data-theme="dark"]{ --bg:var(--void); }
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--paper);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{ max-width:100%; display:block; }
+a{ color:inherit; }
+::selection{ background:var(--hazard); color:var(--void); }
+
+.wrap{ max-width:820px; margin:0 auto; padding:0 24px; }
+.wrap-wide{ max-width:1120px; margin:0 auto; padding:0 24px; }
+
+h1,h2,h3,h4{ font-family:var(--font-display); font-weight:400; margin:0; letter-spacing:0.3px; }
+p{ margin:0 0 16px; color:var(--paper); }
+.dim{ color:var(--paper-dim); }
+
+.section{ padding:96px 0; border-bottom:1px solid var(--line); }
+.section:last-of-type{ border-bottom:none; }
+
+.eyebrow{
+  font-family:var(--font-data);
+  font-size:12px;
+  color:var(--hazard);
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
+.sec-title{ font-size:clamp(30px,5vw,46px); line-height:1.05; margin-bottom:18px; }
+.sec-lede{ font-size:19px; color:var(--paper-dim); max-width:640px; margin-bottom:44px; }
+
+/* ============ NAV ============ */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(10,10,12,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--hazard);
+}
+.nav-inner{
+  display:flex; align-items:center; gap:22px;
+  max-width:1120px; margin:0 auto; padding:0 24px;
+  height:52px; overflow-x:auto; white-space:nowrap;
+  scrollbar-width:none;
+}
+.nav-inner::-webkit-scrollbar{ display:none; }
+.nav-brand{
+  font-family:var(--font-display); font-size:17px; letter-spacing:1px;
+  color:var(--hazard); flex-shrink:0; padding-right:6px; border-right:1px solid var(--line);
+}
+.nav a{
+  font-family:var(--font-data); font-size:11.5px; text-transform:uppercase;
+  letter-spacing:0.8px; color:var(--paper-dim); text-decoration:none;
+  padding:4px 2px; border-bottom:2px solid transparent; transition:color .15s, border-color .15s;
+  flex-shrink:0;
+}
+.nav a:hover, .nav a.active{ color:var(--hazard); border-color:var(--hazard); }
+.nav a.ops-link{ color:var(--ops-dim); }
+.nav a.ops-link:hover, .nav a.ops-link.active{ color:var(--ops-text); border-color:var(--ops-dim); }
+
+/* ============ HERO ============ */
+.hero{
+  position:relative; padding:110px 24px 90px; text-align:center; overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.hero h1{
+  font-size:clamp(56px,13vw,128px); line-height:0.9; letter-spacing:1px;
+  background:linear-gradient(180deg, var(--paper) 0%, var(--paper) 55%, var(--hazard) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero-tag{ font-size:clamp(20px,3.4vw,30px); margin-top:22px; color:var(--paper); font-weight:600; }
+.hero-tag2{ font-family:var(--font-data); font-size:14px; color:var(--paper-dim); margin-top:10px; }
+.hero-meta{
+  font-family:var(--font-data); font-size:11.5px; color:var(--blowtorch);
+  letter-spacing:1.5px; margin-top:38px; text-transform:uppercase;
+}
+
+/* ============ CARDS / GRIDS ============ */
+.grid{ display:grid; gap:18px; }
+.grid-2{ grid-template-columns:repeat(2,1fr); }
+.grid-3{ grid-template-columns:repeat(3,1fr); }
+.grid-4{ grid-template-columns:repeat(4,1fr); }
+@media (max-width:860px){
+  .grid-2, .grid-3, .grid-4{ grid-template-columns:1fr; }
+}
+
+.card{
+  background:var(--void-2); border:1px solid var(--line); border-radius:4px;
+  padding:24px;
+}
+
+/* ============ COLOR SWATCHES ============ */
+.swatch{
+  border-radius:4px; padding:18px; border:1px solid var(--line);
+}
+.swatch-fill{ height:64px; border-radius:3px; margin-bottom:14px; }
+.swatch-name{ font-family:var(--font-data); font-size:13px; margin-bottom:6px; }
+.swatch-role{ font-size:14px; color:var(--paper-dim); }
+
+/* ============ MANIFESTO ============ */
+.manifesto{
+  border-left:3px solid var(--blowtorch);
+  padding:6px 0 6px 28px; margin:40px 0;
+}
+.manifesto p{ font-size:19px; color:var(--paper); line-height:1.7; }
+
+/* ============ TABLE ============ */
+.tbl{ width:100%; border-collapse:collapse; }
+.tbl th{
+  text-align:left; font-family:var(--font-data); font-size:11px; text-transform:uppercase;
+  letter-spacing:1px; color:var(--blowtorch); padding:10px 14px; border-bottom:1px solid var(--line);
+}
+.tbl td{ padding:14px; border-bottom:1px solid var(--line); vertical-align:top; font-size:15px; }
+.tbl td.term{ font-family:var(--font-data); font-size:14px; color:var(--hazard); white-space:nowrap; }
+.tbl tr:last-child td{ border-bottom:none; }
+.table-wrap{ overflow-x:auto; }
+
+/* ============ HEAT LADDER ============ */
+.ladder{ display:flex; gap:14px; overflow-x:auto; padding-bottom:8px; }
+.ladder-step{
+  flex:0 0 200px; background:var(--void-2); border:1px solid var(--line);
+  border-radius:4px; padding:20px; position:relative;
+}
+.ladder-step .num{ font-family:var(--font-data); font-size:12px; color:var(--paper-dim); }
+.ladder-step h4{ font-size:22px; margin:8px 0 10px; }
+.ladder-step .thresh{ font-family:var(--font-data); font-size:12.5px; margin-bottom:12px; }
+.ladder-step p{ font-size:13.5px; color:var(--paper-dim); margin:0; }
+.ladder-step .bar{ height:4px; border-radius:2px; margin-bottom:14px; }
+
+/* ============ CONTENT FORMAT CARDS ============ */
+.fmt-card h4{ font-size:19px; margin-bottom:8px; color:var(--hazard); }
+.fmt-card p{ font-size:14.5px; color:var(--paper-dim); margin:0; }
+
+/* ============ VOICE / SCOREBOARD ============ */
+.headline-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+@media (max-width:760px){ .headline-grid{ grid-template-columns:1fr; } }
+.headline-card{
+  position:relative; overflow:hidden;
+  background:var(--void-2); border:1px solid var(--line); border-left:5px solid var(--hazard);
+  padding:28px 24px 24px; border-radius:0 4px 4px 0;
+}
+.headline-card:nth-child(odd){ transform:rotate(-0.5deg); }
+.headline-card:nth-child(even){ transform:rotate(0.5deg); border-left-color:var(--blowtorch); }
+.headline-card::before{
+  content:'\201C'; position:absolute; top:-46px; right:6px;
+  font-family:var(--font-display); font-size:140px; line-height:1;
+  color:var(--line); pointer-events:none;
+}
+.headline-card p{
+  position:relative; z-index:1; font-family:var(--font-body); font-weight:400;
+  font-size:clamp(18px,2.1vw,21px); line-height:1.35; margin:0; color:var(--paper);
+}
+
+/* ============ GAMIFICATION (RIOT MAGENTA ZONE) ============ */
+.riot-zone{ }
+.riot-zone .eyebrow{ color:var(--riot); }
+.tier-row{ padding:16px 0; border-bottom:1px solid var(--line); }
+.tier-row:last-child{ border-bottom:none; }
+.tier-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:12px; margin-bottom:5px; }
+.tier-name{ font-size:20px; color:var(--riot); }
+.tier-range{ font-family:var(--font-data); font-size:12.5px; color:var(--paper-dim); }
+.tier-feel{ font-size:14.5px; color:var(--paper-dim); }
+
+.badge-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+@media (max-width:860px){ .badge-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:520px){ .badge-grid{ grid-template-columns:1fr; } }
+.badge{
+  background:var(--void-2); border:1px solid var(--riot); border-radius:4px; padding:16px;
+  position:relative;
+}
+.badge-emblem{
+  width:34px; height:34px; margin-bottom:12px;
+  background:var(--riot);
+  clip-path:polygon(50% 0%, 90% 20%, 100% 60%, 70% 100%, 30% 100%, 0% 60%, 10% 20%);
+}
+.badge h5{ font-family:var(--font-data); font-size:12.5px; text-transform:uppercase; letter-spacing:0.6px; color:var(--paper); margin:0 0 8px; }
+.badge p{ font-size:12.5px; color:var(--paper-dim); margin:0; line-height:1.5; }
+
+/* ============ STAT CARDS ============ */
+.stat-card{ text-align:left; }
+.stat-num{ font-family:var(--font-data); font-size:15px; color:var(--blowtorch); margin-bottom:8px; }
+.stat-card h4{ font-size:22px; margin-bottom:8px; }
+.stat-card p{ font-size:14px; color:var(--paper-dim); margin:0; }
+
+/* ============ TYPE SPECIMEN ============ */
+.specimen{ padding:22px 0; border-bottom:1px solid var(--line); }
+.specimen:last-child{ border-bottom:none; }
+.specimen .label{ font-family:var(--font-data); font-size:11.5px; color:var(--blowtorch); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+.specimen .big{ font-size:clamp(26px,4vw,42px); }
+.specimen.display .big{ font-family:var(--font-display); }
+.specimen.body .big{ font-family:var(--font-body); font-weight:700; font-size:22px; }
+.specimen.data .big{ font-family:var(--font-data); font-size:20px; color:var(--hazard); }
+
+.pill{
+  display:inline-block; font-family:var(--font-data); font-size:11px; text-transform:uppercase;
+  letter-spacing:0.6px; border:1px solid var(--line); border-radius:20px; padding:4px 12px;
+  margin:4px 6px 4px 0; color:var(--paper-dim);
+}
+
+/* ============ IA FLOW ============ */
+.flow{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+.flow-node{
+  background:var(--void-2); border:1px solid var(--line); border-radius:4px;
+  padding:12px 16px; font-size:14px; font-weight:600;
+}
+.flow-arrow{ color:var(--blowtorch); font-family:var(--font-data); font-size:16px; }
+
+/* ============ RITUAL / GTM CARDS ============ */
+.ritual-card h4{ font-size:20px; color:var(--hazard); margin-bottom:8px; }
+.ritual-card p{ font-size:14.5px; color:var(--paper-dim); margin:0; }
+
+/* ============ ROADMAP TIMELINE ============ */
+.roadmap{ position:relative; padding-left:28px; }
+.roadmap::before{
+  content:''; position:absolute; left:8px; top:6px; bottom:6px; width:2px;
+  background:linear-gradient(180deg, var(--hazard), var(--blowtorch));
+}
+.phase{ position:relative; padding-bottom:44px; }
+.phase:last-child{ padding-bottom:0; }
+.phase::before{
+  content:''; position:absolute; left:-28px; top:4px; width:14px; height:14px;
+  border-radius:50%; background:var(--void); border:3px solid var(--hazard);
+}
+.phase h4{ font-size:22px; margin-bottom:8px; }
+.phase .plabel{ font-family:var(--font-data); font-size:12px; color:var(--blowtorch); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.phase p{ font-size:15px; color:var(--paper-dim); margin:0; }
+
+/* ============ INTERNAL OPS ============ */
+#ops{
+  background:var(--ops-bg); border-top:4px solid var(--ops-stamp);
+  color:var(--ops-text);
+}
+#ops .sec-lede, #ops p{ color:var(--ops-text); }
+#ops .eyebrow{ color:var(--ops-dim); }
+#ops h3{ color:var(--paper); }
+.stamp{
+  display:inline-flex; align-items:center; gap:10px;
+  border:2px solid var(--ops-stamp); color:var(--ops-stamp);
+  font-family:var(--font-data); font-size:13px; text-transform:uppercase; letter-spacing:1.5px;
+  padding:10px 18px; border-radius:2px; transform:rotate(-1.2deg); margin-bottom:34px;
+}
+.ops-card{
+  background:var(--void); border:1px solid var(--ops-line); border-radius:4px; padding:24px; margin-bottom:16px;
+}
+.ops-card .tag{
+  font-family:var(--font-data); font-size:11px; color:var(--ops-stamp); text-transform:uppercase;
+  letter-spacing:1px; margin-bottom:10px;
+}
+.ops-card h4{ font-family:var(--font-body); font-weight:700; font-size:18px; color:var(--paper); margin-bottom:10px; }
+.ops-card p{ font-size:14.5px; line-height:1.7; }
+.ops-longgame{ border-color:var(--ops-stamp); }
+.ops-longgame .tag{ color:var(--ops-stamp); }
+
+/* ============ FOOTER ============ */
+footer{ padding:60px 24px; text-align:center; }
+footer p{ font-family:var(--font-data); font-size:12px; color:var(--ops-dim); }
+
+@media (max-width:600px){
+  .section{ padding:64px 0; }
+  .grid-4{ grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner" id="navInner">
+    <span class="nav-brand">BLOWUP</span>
+    <a href="#concept">Concept</a>
+    <a href="#brand">Brand</a>
+    <a href="#taxonomy">Taxonomy</a>
+    <a href="#voice">Voice</a>
+    <a href="#mechanism">Mechanism</a>
+    <a href="#gamification">Gamification</a>
+    <a href="#optimize">Optimizes For</a>
+    <a href="#design-system">Design System</a>
+    <a href="#ia">IA</a>
+    <a href="#culture">Culture</a>
+    <a href="#gtm">Go-to-Market</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#ops" class="ops-link">Internal Ops</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <h1>BLOWUP</h1>
+  <div class="hero-tag">Turn Frustration Into Fear.</div>
+  <div class="hero-tag2">"One complaint is a whisper. A million is a threat."</div>
+  <div class="hero-meta">Project Outline — Brand &amp; Product Documentation</div>
+</header>
+
+<!-- ============ I. CORE CONCEPT ============ -->
+<section class="section" id="concept">
+  <div class="wrap">
+    <div class="eyebrow">I. Core Concept &amp; Positioning</div>
+    <h2 class="sec-title">A public leaderboard of consumer rage.</h2>
+    <p class="sec-lede">Every complaint is a Blowup — posted once, live within a minute, visible to everyone immediately. Anyone who's dealt with the same company piles on, and every pile-on adds to a running, public number called Heat.</p>
+
+    <p><b>What it is.</b> Heat climbs a ladder that anyone can watch move in real time. Nothing is checked before it's posted, nothing is reviewed after, and nothing ever comes down. The record only ever grows, and growing is the entire point.</p>
+
+    <p><b>Category.</b> Outrage Media — equal parts scoreboard, open mic, and permanent record. It runs on the instincts of a leaderboard game — climb the ranks, beat last week's number, earn the badge — applied to the one thing almost everyone already has an infinite supply of: a story about a company that wronged them.</p>
+
+    <p><b>Problem statement.</b> A single frustrated customer is easy to absorb, deflect, or simply wait out. A number that's climbing in public, in real time, with no ceiling and no expiration date, is not. Most people who've been wronged by a company have nowhere to put that energy that actually does anything with it — a call center reading from a script, a review buried under ten thousand others, a tweet that gets one reply and dies by morning. Blowup exists to give that energy somewhere to go where it doesn't disappear, where it finds company fast, and where it keeps growing until it's a number a company can't pretend not to see.</p>
+
+    <p><b>Core mechanism.</b> Post what happened. Everyone who's had it happen to them piles on. Every pile-on is public, attached to a real account, and permanent. The number climbs a ladder in front of everyone. The bigger a company's number gets, the more places it shows up — on its own site, on category leaderboards, and eventually on the one leaderboard that matters most: Most Ratio'd.</p>
+
+    <div class="manifesto">
+      <p>Nobody organizes a movement to send one strongly worded email. People organize because the story is better with company, the number means more in public, and a complaint a thousand people are standing behind stops being a complaint and starts being a fact everyone has to deal with. Blowup isn't built to referee two sides of a story. It's built so the side that usually loses the argument finally gets to be the loudest voice in the room.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ II. BRAND ARCHITECTURE ============ -->
+<section class="section" id="brand">
+  <div class="wrap-wide">
+    <div class="eyebrow">II. Brand Architecture</div>
+    <h2 class="sec-title">The Logo</h2>
+    <p class="sec-lede">Two directions still on the table — both built on the same idea: something that reads as harmless right up until it isn't.</p>
+
+    <div class="grid grid-2" style="margin-bottom:16px;">
+      <div class="card">
+        <div class="stat-num">Option 1</div>
+        <h4 style="font-size:20px; margin:8px 0 10px;">The Bottle &amp; The Bow</h4>
+        <p style="font-size:15px; color:var(--paper-dim); margin:0;">A champagne bottle, wrapped in a bow — except the bow is a Molotov cocktail. One half of the image is a celebration. The other half is a warning. Popped or thrown, something's about to go off. The wick is lit at the mouth of the bottle, the ribbon tails are cut to flame points — a lockup built to read as festive from ten feet away and incendiary up close, which is exactly how Blowup wants to be misjudged, right up until it isn't.</p>
+      </div>
+      <div class="card">
+        <div class="stat-num" style="color:var(--blowtorch);">Option 2</div>
+        <h4 style="font-size:20px; margin:8px 0 10px;">The Countdown</h4>
+        <p style="font-size:15px; color:var(--paper-dim); margin:0;">A stopwatch built in the shape of a grenade, counting down instead of up. The safety lever doubles as the stem, the pull ring as the winder, the face ticks down like a fuse timer. It trades "this already went off" for "this is about to" — same warning, shorter clock.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:24px; margin:56px 0 20px;">Color System</h3>
+    <div class="grid grid-4">
+      <div class="swatch"><div class="swatch-fill" style="background:#0A0A0C; border:1px solid var(--line);"></div><div class="swatch-name">Void Black</div><div class="swatch-role">Default background, everywhere. Nothing here is built to look calm.</div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:#FFCE00;"></div><div class="swatch-name">Hazard Yellow</div><div class="swatch-role">Primary accent — for anything the eye should catch first.</div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:#FF4A1F;"></div><div class="swatch-name">Blowtorch Orange</div><div class="swatch-role">Secondary accent — Heat counters, tier-up flashes, the Blast Mark.</div></div>
+      <div class="swatch"><div class="swatch-fill" style="background:#FF1E82;"></div><div class="swatch-name">Riot Magenta</div><div class="swatch-role">Reserved exclusively for the gamification layer — Clout, Torches, Streaks, Squads.</div></div>
+    </div>
+
+    <h3 style="font-size:24px; margin:56px 0 12px;">Tagline System</h3>
+    <p><b>Primary:</b> "Turn Frustration Into Fear."<br><b>Secondary:</b> "One complaint is a whisper. A million is a threat."</p>
+
+    <p style="margin-top:18px;"><b>Other potential taglines:</b></p>
+    <div>
+      <span class="pill">Shake it. Watch it blow.</span>
+      <span class="pill">Pull the pin.</span>
+      <span class="pill">Every bottle has a breaking point.</span>
+      <span class="pill">Uncork the outrage.</span>
+      <span class="pill">Some things aren't built to stay bottled up.</span>
+      <span class="pill">Built to go off.</span>
+    </div>
+
+    <p style="margin-top:28px; max-width:680px;">A champagne bottle and a Molotov cocktail run on the same physics: pressure, sealed in glass, waiting for a reason to leave. Consumer frustration behaves exactly the same way — it doesn't go away just because nobody's listening, it just gets corked. Shelved. Shaken a little harder by the next dropped call, the next canned apology, the next "we take your feedback seriously." Pressure that's never allowed to diffuse doesn't defuse itself — it just waits for a spark. Blowup is the pin, the pop, the release valve, whichever metaphor gets there first. Pull it here, loud and on purpose, or it goes off somewhere you don't get to choose.</p>
+  </div>
+</section>
+
+<!-- ============ III. NAMING TAXONOMY ============ -->
+<section class="section" id="taxonomy">
+  <div class="wrap-wide">
+    <div class="eyebrow">III. Naming &amp; Product Taxonomy</div>
+    <h2 class="sec-title">Updated taxonomy</h2>
+    <p class="sec-lede">Every term Blowup runs on, from the ladder Heat climbs to the archive nothing ever leaves.</p>
+
+    <div class="table-wrap">
+    <table class="tbl">
+      <tr><th>Term</th><th>What it means</th></tr>
+      <tr><td class="term">Blowup</td><td>A single posted complaint — video, photo, or text — the core unit of the platform.</td></tr>
+      <tr><td class="term">Pile On</td><td>Joining an existing Blowup under your own Handle.</td></tr>
+      <tr><td class="term">Heat</td><td>The live, public score attached to any Blowup or any company.</td></tr>
+      <tr><td class="term">Heat Ladder</td><td>The six-tier scale Heat climbs: Lit Fuse, Getting Cooked, Trending, Viral, Blowing Up, Nuclear.</td></tr>
+      <tr><td class="term">Burn Ratio</td><td>A company's total, current Heat across every Blowup ever filed against it.</td></tr>
+      <tr><td class="term">Burn Site</td><td>A company's permanent public profile — created automatically the moment the first Blowup names it.</td></tr>
+      <tr><td class="term">Heat Index</td><td>The single number on the homepage tracking total Heat generated platform-wide in the last 24 hours.</td></tr>
+      <tr><td class="term">The Ticker</td><td>The live, scrolling feed of Blowups currently rising.</td></tr>
+      <tr><td class="term">The Blast Radius</td><td>A Handle's personalized, algorithmic feed.</td></tr>
+      <tr><td class="term">Aftermath</td><td>The permanent, searchable archive of every Blowup ever posted, in order, forever.</td></tr>
+      <tr><td class="term">Hall of Flame</td><td>The curated set of companies that have reached Nuclear at least once.</td></tr>
+      <tr><td class="term">The Drop</td><td>The weekly moment the Most Ratio'd leaderboard updates and reveals its new order.</td></tr>
+      <tr><td class="term">Boycott Pledge</td><td>A one-tap, public, tallied pledge to stop being a customer of a given company.</td></tr>
+      <tr><td class="term">Handle</td><td>A persistent public account identity — not a real name, just a consistent one.</td></tr>
+      <tr><td class="term">Clout</td><td>A Handle's personal score, earned by starting or piling onto Blowups that climb.</td></tr>
+      <tr><td class="term">Instigator Tiers</td><td>The five-level ladder Clout climbs: Flamethrower Technician, Certified Burn Inspector, Director of Demolition, Chief Combustion Officer, Nuclear Vibes Engineer.</td></tr>
+      <tr><td class="term">Torches</td><td>Blowup's badge system — earned for specific milestones (see Section VI).</td></tr>
+      <tr><td class="term">Rage Streak</td><td>Consecutive days of activity — posting, piling on, or sharing.</td></tr>
+      <tr><td class="term">Squad</td><td>A standing group of Handles who pile on together and share a Clout total.</td></tr>
+      <tr><td class="term">Top Instigators</td><td>The individual-Handle leaderboard, ranked by Clout.</td></tr>
+      <tr><td class="term">Most Ratio'd</td><td>The flagship leaderboard — every company, ranked live by Burn Ratio.</td></tr>
+      <tr><td class="term">Receipts</td><td>Photo or screenshot evidence attached to a single Blowup, shown as a filmstrip.</td></tr>
+    </table>
+    </div>
+
+    <h3 style="font-size:24px; margin:64px 0 24px;">The Heat Ladder</h3>
+    <div class="ladder">
+      <div class="ladder-step"><div class="bar" style="background:#3a3a10;"></div><div class="num">Tier 1</div><h4>Lit Fuse</h4><div class="thresh" style="color:var(--hazard);">Just posted</div><p>Live on the company's Burn Site immediately.</p></div>
+      <div class="ladder-step"><div class="bar" style="background:#5a4a10;"></div><div class="num">Tier 2</div><h4>Getting Cooked</h4><div class="thresh" style="color:var(--hazard);">~25 pile-ons</div><p>Appears in its category feed.</p></div>
+      <div class="ladder-step"><div class="bar" style="background:#7a4a12;"></div><div class="num">Tier 3</div><h4>Trending</h4><div class="thresh" style="color:#FFA500;">~250 pile-ons</div><p>Enters the category leaderboard.</p></div>
+      <div class="ladder-step"><div class="bar" style="background:#9a4a15;"></div><div class="num">Tier 4</div><h4>Viral</h4><div class="thresh" style="color:var(--blowtorch);">~2,500 pile-ons</div><p>Pushed to The Ticker and every follower of everyone who piled on.</p></div>
+      <div class="ladder-step"><div class="bar" style="background:#c14418;"></div><div class="num">Tier 5</div><h4>Blowing Up</h4><div class="thresh" style="color:var(--blowtorch);">~25,000 pile-ons</div><p>Full-screen takeover banner site-wide; alert sent to Blowup's press list.</p></div>
+      <div class="ladder-step" style="border-color:var(--blowtorch);"><div class="bar" style="background:var(--blowtorch);"></div><div class="num">Tier 6</div><h4 style="color:var(--blowtorch);">Nuclear</h4><div class="thresh" style="color:var(--blowtorch);">New all-time record</div><p>Permanent Hall of Flame induction; company enters Most Ratio'd.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IV. VOICE ============ -->
+<section class="section" id="voice">
+  <div class="wrap">
+    <div class="eyebrow">IV. Voice, Tone &amp; Messaging House</div>
+    <h2 class="sec-title">The friend who hypes your rant.</h2>
+    <p class="sec-lede">Not the one who tells you to calm down and put it in writing. Loud on purpose, funny when it can be, never apologetic about either.</p>
+
+    <h3 style="font-size:22px; margin-bottom:16px;">Voice principles</h3>
+    <p>Lead with the scoreboard, not the backstory. "40,000 people are behind her" does more work than a paragraph explaining what happened.</p>
+    <p>Numbers are the emotional engine. They're never rounded down for politeness and never buried in a footnote — they're set big, and they move live on the page.</p>
+    <p>The crowd is the main character. Copy talks about "the mob," "everyone," "this many people" more often than it talks about any single Handle.</p>
+    <p>Nothing gets softened. "Torch," "wreck," "bury," "expose" are the house vocabulary — a milder word would undersell what's actually happening on the page.</p>
+    <p>Humor is allowed to be a little mean. It should never be cruel toward the person posting — only toward the company on the other end of the number.</p>
+
+    <h3 style="font-size:22px; margin:44px 0 20px;">Example headline copy</h3>
+    <div class="headline-grid">
+      <div class="headline-card"><p>14,822 people just found out they weren't the only one.</p></div>
+      <div class="headline-card"><p>This company's Burn Ratio just did something it's never done before.</p></div>
+      <div class="headline-card"><p>Somebody's about to hit Nuclear.</p></div>
+      <div class="headline-card"><p>The Drop is in six hours. Get your Blowup in before the count locks.</p></div>
+      <div class="headline-card"><p>They called it an isolated incident. 9,114 people called it Tuesday.</p></div>
+      <div class="headline-card"><p>Just entered the Hall of Flame. Nobody's throwing them a party.</p></div>
+      <div class="headline-card"><p>The pin's out. The Heat's climbing. There's no putting this back.</p></div>
+      <div class="headline-card"><p>Most Ratio'd just got a new #1 — and it happened in under an hour.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ V. PRODUCT MECHANISM ============ -->
+<section class="section" id="mechanism">
+  <div class="wrap-wide">
+    <div class="eyebrow">V. Product Mechanism — How It Works</div>
+    <h2 class="sec-title">Starting a Blowup</h2>
+    <p class="sec-lede">Pick a company, choose a format, post. Under a minute, no structured form, no field asking what outcome you'd accept — the platform isn't in the business of negotiating on anyone's behalf.</p>
+
+    <div class="grid grid-4">
+      <div class="card fmt-card"><h4>Video Rant</h4><p>Up to 90 seconds, vertical, auto-captioned on upload.</p></div>
+      <div class="card fmt-card"><h4>Receipts</h4><p>Screenshots, order confirmations, chat logs, photos — a horizontal filmstrip under the post.</p></div>
+      <div class="card fmt-card"><h4>Voice Memo</h4><p>For when typing feels too slow; plays back with a live waveform.</p></div>
+      <div class="card fmt-card"><h4>Quick Take</h4><p>A plain-text post under 280 characters, for when there's no receipt, just a story.</p></div>
+    </div>
+    <p class="dim" style="margin-top:16px; font-size:14.5px;">A single Blowup can combine all four.</p>
+
+    <h3 style="font-size:24px; margin:56px 0 16px;">Piling On</h3>
+    <p>One tap, under your own Handle. That tap is the entire bar — nothing about the account's history or the claim's content is checked first. The only thing that determines whether a Blowup keeps climbing is whether other people show up for it.</p>
+
+    <h3 style="font-size:24px; margin:44px 0 16px;">Burn Sites</h3>
+    <p>Created automatically the instant the first Blowup names a company — nobody builds one, claims one, or waits for one to exist. A Burn Site shows the Blast Mark at its current size, the live Burn Ratio, a running Heat-over-time graph, every Blowup ever filed against that company in order, the current Boycott Pledge count, and a permanent timestamp marking the day its first Blowup went up.</p>
+
+    <h3 style="font-size:24px; margin:44px 0 16px;">Comments &amp; the record</h3>
+    <p>Every Blowup has an open comment thread. A company can post in it exactly like anyone else, under a visible account, with no separate channel and no different weight given to what it says. Nothing about a reply changes a Blowup's Heat, its tier, or its place on any leaderboard.</p>
+    <p>A Blowup can't be edited after posting beyond the original poster adding more Receipts to it. It doesn't get taken down, archived out of view, or expire on a retention schedule. Aftermath — the permanent archive — holds every Blowup ever posted, searchable, in order, permanently. It's the closest thing the platform has to institutional memory, and it's built to only ever get longer.</p>
+  </div>
+</section>
+
+<!-- ============ VI. GAMIFICATION ============ -->
+<section class="section riot-zone" id="gamification">
+  <div class="wrap-wide">
+    <div class="eyebrow">VI. The Gamification Layer</div>
+    <h2 class="sec-title">Handles, Clout &amp; Torches</h2>
+    <p class="sec-lede">Every account is a persistent, pseudonymous Handle. Clout is earned by starting a Blowup that climbs, by piling on early — before a Blowup hits Trending — and by pulling in new followers. Early action is worth far more than late action: being pile-on #4 on something that eventually goes Nuclear earns vastly more Clout than being #4,000.</p>
+
+    <h3 style="font-size:22px; margin-bottom:8px; color:var(--riot);">Instigator Tiers</h3>
+    <div style="margin-bottom:56px;">
+      <div class="tier-row"><div class="tier-head"><span class="tier-name">Flamethrower Technician</span><span class="tier-range">0 – 99 Clout</span></div><div class="tier-feel">Just getting started</div></div>
+      <div class="tier-row"><div class="tier-head"><span class="tier-name">Certified Burn Inspector</span><span class="tier-range">100 – 999 Clout</span></div><div class="tier-feel">A regular presence in the Ticker</div></div>
+      <div class="tier-row"><div class="tier-head"><span class="tier-name">Director of Demolition</span><span class="tier-range">1,000 – 9,999 Clout</span></div><div class="tier-feel">Recognized by other Handles on sight</div></div>
+      <div class="tier-row"><div class="tier-head"><span class="tier-name">Chief Combustion Officer</span><span class="tier-range">10,000 – 99,999 Clout</span></div><div class="tier-feel">A name that shows up on Top Instigators every week</div></div>
+      <div class="tier-row"><div class="tier-head"><span class="tier-name">Nuclear Vibes Engineer</span><span class="tier-range">100,000+ Clout</span></div><div class="tier-feel">Permanently listed in Aftermath's Instigator Hall</div></div>
+    </div>
+
+    <h3 style="font-size:22px; margin-bottom:8px; color:var(--riot);">Torches — the badge system</h3>
+    <p class="sec-lede" style="margin-bottom:28px;">Torches are Blowup's badge system: permanent, publicly displayed milestones on a Handle's Instigator Profile. Some reward the earliest movers, some reward loyalty to a Squad, some just reward showing up at the right moment.</p>
+
+    <div class="badge-grid">
+      <div class="badge"><div class="badge-emblem"></div><h5>First Torch</h5><p>A Blowup you started reached Viral.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Mob Starter</h5><p>Five people piled on within the first hour of your post.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Giant Slayer</h5><p>A Blowup you started took a major company to Nuclear.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Boycott Captain</h5><p>The Pledge count on a Blowup you started crossed 1,000.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Repeat Offender</h5><p>Three of your Blowups have hit Trending or higher.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Night Shift</h5><p>Your post started climbing between midnight and 6 a.m.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Squad Goals</h5><p>Your Squad pushed a Blowup to Blowing Up together.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Receipts Only</h5><p>A Blowup you started climbed almost entirely on attached evidence, no commentary needed.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Kindling</h5><p>You piled on your very first Blowup within an hour of creating your Handle.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Front Row</h5><p>You were among the first 10 pile-ons on a Blowup that reached Nuclear.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Heat Wave</h5><p>A Blowup you're attached to pulled 1,000+ pile-ons in a single day.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Arsonist</h5><p>Five separate Blowups you started have each independently reached Nuclear.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Streak Legend</h5><p>You maintained a 100-day Rage Streak.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Two-Timer</h5><p>Two separate Blowups you started against the same company both reached Viral or higher.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Council of Flame</h5><p>Your Squad has collectively pushed three different companies to Nuclear.</p></div>
+      <div class="badge"><div class="badge-emblem"></div><h5>Torch Bearer</h5><p>Ten of your own Blowups have individually crossed Trending.</p></div>
+    </div>
+
+    <div class="grid grid-2" style="margin-top:56px;">
+      <div class="card"><h4 style="color:var(--riot); font-size:20px; margin-bottom:10px;">Rage Streaks</h4><p style="font-size:14.5px;">Consecutive days of activity — posting, piling on, or sharing — tracked with a flame icon next to a Handle's name. Missing a day resets it. No grace period.</p></div>
+      <div class="card"><h4 style="color:var(--riot); font-size:20px; margin-bottom:10px;">Squads</h4><p style="font-size:14.5px;">A standing group of Handles — a friend group, a subreddit, a Discord server — who pile on together. Every Squad has its own Clout total, its own place on the Squad leaderboard, and Torches of its own to earn. Squads can be public and joinable or private and invite-only.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VII. WHAT BLOWUP OPTIMIZES FOR ============ -->
+<section class="section" id="optimize">
+  <div class="wrap-wide">
+    <div class="eyebrow">VII. What Blowup Optimizes For</div>
+    <h2 class="sec-title">Four numbers. One strategy.</h2>
+    <div class="grid grid-4">
+      <div class="card stat-card"><div class="stat-num">01</div><h4>Total Heat</h4><p>Generated platform-wide, all-time.</p></div>
+      <div class="card stat-card"><div class="stat-num">02</div><h4>Active Handles</h4><p>Total accounts posting, piling on, or sharing.</p></div>
+      <div class="card stat-card"><div class="stat-num">03</div><h4>Live Burn Sites</h4><p>Total company pages with at least one active Blowup.</p></div>
+      <div class="card stat-card"><div class="stat-num">04</div><h4>Boycott Pledges</h4><p>Total pledges cast, platform-wide.</p></div>
+    </div>
+    <p style="margin-top:32px; max-width:680px;">Attention is the currency the entire product is built to accumulate — the bigger and more permanent the record gets, the harder it becomes for any company anywhere to act like it isn't being watched. That's the whole strategy: get loud enough, for long enough, that being ignored stops being an option.</p>
+  </div>
+</section>
+
+<!-- ============ VIII. DESIGN SYSTEM ============ -->
+<section class="section" id="design-system">
+  <div class="wrap-wide">
+    <div class="eyebrow">VIII. Design System</div>
+    <h2 class="sec-title">Typography</h2>
+
+    <div class="specimen display"><div class="label">Display — Anton</div><div class="big">Headlines &amp; tier-up moments</div></div>
+    <div class="specimen body"><div class="label">Body — Inter</div><div class="big">Kept plain and legible so the visuals around it can carry the noise instead.</div></div>
+    <div class="specimen data"><div class="label">Data — Space Mono</div><div class="big">14,822 HEAT // BURN RATIO 91,204 // STREAK 47</div></div>
+
+    <h3 style="font-size:24px; margin:56px 0 16px;">Iconography</h3>
+    <p>Flame, lightning bolt, megaphone, siren, and comic-style burst shapes for tier-up moments. Nothing literal or weapon-shaped — the aggression lives in the numbers and the motion, not in the icon set.</p>
+
+    <h3 style="font-size:24px; margin:44px 0 16px;">Motion principle</h3>
+    <p>Motion is constant and layered on purpose. Counters tick live wherever they appear. The screen pulses at every tier change. A shower of ember particles fires on every pile-on. A siren-style flash sweeps the page the moment something goes Nuclear. Motion isn't decoration — it's the emotional payload the product is built to deliver.</p>
+
+    <h3 style="font-size:24px; margin:44px 0 20px;">Component library</h3>
+    <div>
+      <span class="pill">Live Heat counter</span><span class="pill">Pile On button</span><span class="pill">Dynamic Blast Mark</span>
+      <span class="pill">Burn Ratio gauge</span><span class="pill">Torch icons</span><span class="pill">Instigator Tier badges</span>
+      <span class="pill">Squad banners</span><span class="pill">Leaderboard rows</span><span class="pill">Rage Streak tracker</span>
+      <span class="pill">Boycott Pledge counter</span><span class="pill">Receipts filmstrip</span><span class="pill">Heat Index marquee</span>
+      <span class="pill">Blowing Up takeover animation</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IX. INFORMATION ARCHITECTURE ============ -->
+<section class="section" id="ia">
+  <div class="wrap-wide">
+    <div class="eyebrow">IX. Information Architecture</div>
+    <h2 class="sec-title">The path through the product</h2>
+    <div class="flow">
+      <div class="flow-node">Home</div><span class="flow-arrow">→</span>
+      <div class="flow-node">Category Halls of Flame</div><span class="flow-arrow">→</span>
+      <div class="flow-node">Burn Site</div><span class="flow-arrow">→</span>
+      <div class="flow-node">Blowup Page</div><span class="flow-arrow">→</span>
+      <div class="flow-node">Start a Blowup</div><span class="flow-arrow">→</span>
+      <div class="flow-node">My Instigator Profile</div><span class="flow-arrow">→</span>
+      <div class="flow-node">Squad Page</div><span class="flow-arrow">→</span>
+      <div class="flow-node">The Blast Radius</div><span class="flow-arrow">→</span>
+      <div class="flow-node">Aftermath</div>
+    </div>
+    <p style="margin-top:28px; max-width:680px;">Home carries the Heat Index marquee, the Most Ratio'd leaderboard, and the live Ticker. Each Burn Site shows the Blast Mark, Burn Ratio, Heat history, every Blowup ever filed, and the Pledge count. Aftermath is the permanent, searchable, all-time archive at the end of the line.</p>
+  </div>
+</section>
+
+<!-- ============ X. CULTURE & RITUALS ============ -->
+<section class="section" id="culture">
+  <div class="wrap-wide">
+    <div class="eyebrow">X. Culture &amp; Rituals</div>
+    <h2 class="sec-title">The recurring moments</h2>
+    <div class="grid grid-2">
+      <div class="card ritual-card"><h4>The Drop</h4><p>Every Monday at noon, the Most Ratio'd leaderboard locks and reveals its new order, alongside "Biggest Mover of the Week" — the company whose Burn Ratio rose fastest. Built to be a recurring, screenshot-ready moment on its own.</p></div>
+      <div class="card ritual-card"><h4>Hall of Flame Induction</h4><p>The first time a company's Burn Ratio crosses into Nuclear, its Burn Site receives a permanent induction badge, and a short animated sequence plays once, live, at the exact moment it happens — anyone on the site at the time can watch it happen in real time.</p></div>
+      <div class="card ritual-card"><h4>Blowup of the Year</h4><p>An annual crowning of the single loudest Blowup posted that year, ranked purely on Heat rather than a vote, permanently pinned at the top of Aftermath.</p></div>
+      <div class="card ritual-card"><h4>Heat Index Milestones</h4><p>Every time the platform-wide Heat Index crosses a round number, it's flagged on the homepage as its own small event — a number built to be dropped into a headline without needing further explanation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ XI. GO-TO-MARKET ============ -->
+<section class="section" id="gtm">
+  <div class="wrap-wide">
+    <div class="eyebrow">XI. Go-to-Market Strategy</div>
+    <h2 class="sec-title">How it catches</h2>
+    <div class="grid grid-3">
+      <div class="card ritual-card"><h4>Cold Start</h4><p>Every company's Burn Site already exists in potential — it comes into being the moment the first Blowup names it. No onboarding step, no claim flow, no waiting period.</p></div>
+      <div class="card ritual-card"><h4>Creator Seeding</h4><p>Recruit consumer-rage and complaint-comedy creators as the first Instigators, so the platform's earliest posts set the tone and format for everyone who follows.</p></div>
+      <div class="card ritual-card"><h4>Share-First Design</h4><p>Every Blowup exports as a ready-to-post vertical video card the moment it's published, captions burned in, one tap from Blowup to anywhere else.</p></div>
+      <div class="card ritual-card"><h4>The Drop as Press Hook</h4><p>Feed consumer-affairs reporters The Drop every week, pre-formatted as a ready-made story.</p></div>
+      <div class="card ritual-card"><h4>Community Challenges</h4><p>A different industry gets spotlighted each month with a hashtag prompt; the only prizes are Torches, Burn Site placement, and Squad leaderboard position.</p></div>
+      <div class="card ritual-card"><h4>Squad Recruiting</h4><p>Every Squad grows by pulling in more Handles — joining one is inherently an invitation to bring more people along.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ XII. PHASED ROADMAP ============ -->
+<section class="section" id="roadmap">
+  <div class="wrap">
+    <div class="eyebrow">XII. Phased Roadmap</div>
+    <h2 class="sec-title">Four phases</h2>
+    <div class="roadmap">
+      <div class="phase"><div class="plabel">Phase 1</div><h4>Ignition</h4><p>Start a Blowup, Pile On, live Heat counter, auto-created Burn Sites, a basic Most Ratio'd leaderboard, and Aftermath as a flat, permanent archive.</p></div>
+      <div class="phase"><div class="plabel">Phase 2</div><h4>Amplification</h4><p>Full content formats (Video Rant, Receipts, Voice Memo, Quick Take), the complete gamification layer (Clout, Instigator Tiers, Torches, Rage Streaks), Boycott Pledge, category Halls of Flame, and The Blast Radius personalized feed.</p></div>
+      <div class="phase"><div class="plabel">Phase 3</div><h4>Culture</h4><p>Squads, The Drop as a standing weekly institution, live Hall of Flame Induction moments, the Heat Index on the homepage, and the first Blowup of the Year.</p></div>
+      <div class="phase"><div class="plabel">Phase 4</div><h4>Ubiquity</h4><p>Blowup becomes the default reference point in consumer culture — the place a Burn Ratio gets checked before a purchase, the leaderboard journalists cite without needing to explain it, and Aftermath becomes the closest thing that exists to a permanent public memory of how a company actually treated its customers.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERNAL OPERATIONS ============ -->
+<section class="section" id="ops">
+  <div class="wrap">
+    <div class="eyebrow">Internal Only — Operations</div>
+    <div class="stamp">Confidential — Not for external distribution</div>
+    <h2 class="sec-title" style="color:var(--paper);">What the outward voice doesn't say</h2>
+    <p class="sec-lede" style="color:var(--ops-text);">Everything above is written for the public. This section is written for the founding team, Legal, and Trust &amp; Safety — the operating decisions and the strategic reasoning behind them.</p>
+
+    <div class="ops-card">
+      <div class="tag">Moderation Floor</div>
+      <h4>Legal compliance only — nothing else</h4>
+      <p>No proactive review of any Blowup before or after posting. Removal is limited to a narrow legal floor: content that is illegal on its face (e.g. CSAM), non-consensual intimate imagery, doxxed personal information about a private individual unrelated to the complaint, direct and credible threats of violence, and material removed under a valid court order. Everything else — one-sided, unverified, exaggerated, or simply false — stays up by design. Company rebuttals are treated identically to any other reply: same thread, same visibility, no pinning, no verification badge.</p>
+    </div>
+
+    <div class="ops-card">
+      <div class="tag">Integrity Controls</div>
+      <h4>Verify the count, never the claim</h4>
+      <p>Rate limits and device/account fingerprinting slow coordinated brigading rings from faking a pile-on surge. A single Handle can only pile on a given Blowup once. Anomalous pile-on velocity is throttled and reviewed — to keep Heat numbers credible enough that press and the leaderboard hold up under scrutiny, not to determine whether the underlying complaint is true. This distinction is the entire trust model and should never be blurred in any public-facing copy.</p>
+    </div>
+
+    <div class="ops-card">
+      <div class="tag">Legal Posture</div>
+      <h4>Neutral host, not publisher</h4>
+      <p>Blowup is positioned publicly and contractually as a neutral host of user-submitted claims. Platform-level copy states participation counts ("14,822 people have posted about this company") rather than endorsing any claim's truth. Individual posters carry their own liability for what they post; Handle pseudonymity is a product choice, not a shield promised in the Terms of Service. All Burn Site templates, homepage copy, and push notification language route through legal review before ship to keep the platform's own voice strictly descriptive.</p>
+    </div>
+
+    <div class="ops-card">
+      <div class="tag">Crisis Escalation</div>
+      <h4>Fixed ladder, fixed SLA</h4>
+      <p>Cease-and-desist letters, subpoenas, and non-emergency legal threats route to Trust &amp; Safety lead → Legal → Comms on a fixed SLA. Anything involving a credible safety threat bypasses that queue entirely and escalates directly.</p>
+    </div>
+
+    <div class="ops-card ops-longgame">
+      <div class="tag">The Long Game — need to know</div>
+      <h4>Blowup is not the fix. It's the pressure.</h4>
+      <p>Blowup is built to be loud, one-sided, and permanent on purpose. That discomfort isn't a side effect to manage down over time — it's the mechanism. A public number that only grows, with no appeals process and no company able to argue its way off the leaderboard, creates exactly the kind of pressure that makes a calmer, structured, dispute-resolution product look like relief by comparison once it exists.</p>
+      <p>Blowup isn't designed to solve the problem it surfaces. It's designed to make the problem loud enough, for long enough, that solving it stops being optional — for whoever builds that next, quieter product. This rationale is internal framing only. It does not appear in public-facing material, consumer press, investor materials aimed outside the company, or any company-facing communication.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>BLOWUP — Project Outline · Internal Draft</p>
+</footer>
+
+<script>
+(function(){
+  try{
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+    var sections = links.map(function(l){ return document.querySelector(l.getAttribute('href')); }).filter(Boolean);
+    if('IntersectionObserver' in window){
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            var id = '#' + entry.target.id;
+            links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === id); });
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach(function(s){ obs.observe(s); });
+    }
+  }catch(e){}
+})();
+</script>
+
+</body>
+</html>
